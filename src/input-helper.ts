@@ -1,7 +1,9 @@
 /*
- * This file is part of the "GS Commit Message Checker" Action for Github.
+ * This file is part of the "DDEV Commit Message Checker" Action for GitHub.
  *
- * Copyright (C) 2019-2022 by Gilbertsoft LLC (gilbertsoft.org)
+ * Forked from the unmaintained "GS Commit Message Checker" by Gilbertsoft LLC.
+ * Copyright (C) 2019-2022 Gilbertsoft LLC (gilbertsoft.org)
+ * Copyright (C) 2026 DDEV Foundation (ddev.com)
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -20,8 +22,7 @@
  */
 import * as core from '@actions/core'
 import * as github from '@actions/github'
-import {graphql} from '@octokit/graphql'
-import {ICheckerArguments} from './commit-message-checker'
+import { ICheckerArguments } from './commit-message-checker.js'
 
 export interface PullRequestOptions {
   ignoreTitle: boolean
@@ -41,7 +42,7 @@ export async function getInputs(): Promise<ICheckerArguments> {
   core.debug('Get inputs...')
 
   // Get pattern
-  result.pattern = core.getInput('pattern', {required: true})
+  result.pattern = core.getInput('pattern', { required: true })
   core.debug(`pattern: ${result.pattern}`)
 
   // Get flags
@@ -49,7 +50,7 @@ export async function getInputs(): Promise<ICheckerArguments> {
   core.debug(`flags: ${result.flags}`)
 
   // Get error message
-  result.error = core.getInput('error', {required: true})
+  result.error = core.getInput('error', { required: true })
   core.debug(`error: ${result.error}`)
 
   // Get excludeTitle
@@ -251,13 +252,9 @@ async function getCommitMessagesFromPullRequest(
   }
 `
   const variables = {
-    baseUrl: process.env['GITHUB_API_URL'] || 'https://api.github.com',
     repositoryOwner,
     repositoryName,
-    pullRequestNumber,
-    headers: {
-      authorization: `token ${accessToken}`
-    }
+    pullRequestNumber
   }
 
   core.debug(` - query: ${query}`)
@@ -281,7 +278,12 @@ async function getCommitMessagesFromPullRequest(
     }
   }
 
-  const response = await graphql<RepositoryResponseData>(query, variables)
+  const baseUrl = process.env['GITHUB_API_URL'] || 'https://api.github.com'
+  const octokit = github.getOctokit(accessToken, { baseUrl })
+  const response = await octokit.graphql<RepositoryResponseData>(
+    query,
+    variables
+  )
   const repository = response.repository
 
   core.debug(` - response: ${JSON.stringify(repository, null, 2)}`)

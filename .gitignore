@@ -94,9 +94,5 @@ typings/
 .DS_Store
 Thumbs.db
 
-# Ignore built ts files
-__tests__/runner/*
-lib/**/*
-
 # Ignore IDE related files and folders
 .idea
