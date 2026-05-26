@@ -1,0 +1,16 @@
+{
+  "commits": [
+    {
+      "id": "0000000000000000000000000000000000000001",
+      "message": "[TASK] Add example commit for local-action testing"
+    },
+    {
+      "id": "0000000000000000000000000000000000000002",
+      "message": "[DOCS] Document how to test the action locally"
+    },
+    {
+      "id": "0000000000000000000000000000000000000003",
+      "message": "this one fails the [BUGFIX|DOCS|FEATURE|TASK] pattern"
+    }
+  ]
+}

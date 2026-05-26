@@ -1,7 +1,9 @@
 /*
- * This file is part of the "GS Commit Message Checker" Action for Github.
+ * This file is part of the "DDEV Commit Message Checker" Action for GitHub.
  *
- * Copyright (C) 2019-2022 by Gilbertsoft LLC (gilbertsoft.org)
+ * Forked from the unmaintained "GS Commit Message Checker" by Gilbertsoft LLC.
+ * Copyright (C) 2019-2022 Gilbertsoft LLC (gilbertsoft.org)
+ * Copyright (C) 2026 DDEV Foundation (ddev.com)
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,

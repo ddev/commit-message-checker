@@ -1,7 +1,9 @@
 /*
- * This file is part of the "GS Commit Message Checker" Action for Github.
+ * This file is part of the "DDEV Commit Message Checker" Action for GitHub.
  *
- * Copyright (C) 2019 by Gilbertsoft LLC (gilbertsoft.org)
+ * Forked from the unmaintained "GS Commit Message Checker" by Gilbertsoft LLC.
+ * Copyright (C) 2019-2022 Gilbertsoft LLC (gilbertsoft.org)
+ * Copyright (C) 2026 DDEV Foundation (ddev.com)
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -15,113 +17,100 @@
  * was distributed with this source code.
  */
 
-/**
- * Imports
- */
-import {ICheckerArguments} from '../src/commit-message-checker'
+import { jest } from '@jest/globals'
+import * as core from '../__fixtures__/core.js'
+import type { ICheckerArguments } from '../src/commit-message-checker.js'
 
-// Late bind
-let commitMessageChecker: any
+jest.unstable_mockModule('@actions/core', () => core)
+
+const { checkCommitMessages } = await import('../src/commit-message-checker.js')
 
 describe('commit-message-checker tests', () => {
-  beforeAll(() => {
-    // Now import
-    commitMessageChecker = require('../lib/commit-message-checker')
-  })
-
   it('requires pattern', async () => {
-    const checkerArguments: ICheckerArguments = {
+    const args: ICheckerArguments = {
       pattern: '',
       flags: '',
       error: '',
       messages: []
     }
-    await expect(
-      commitMessageChecker.checkCommitMessages(checkerArguments)
-    ).rejects.toThrow('PATTERN not defined.')
+    await expect(checkCommitMessages(args)).rejects.toThrow(
+      'PATTERN not defined.'
+    )
   })
 
   it('requires valid flags', async () => {
-    const checkerArguments: ICheckerArguments = {
+    const args: ICheckerArguments = {
       pattern: 'some-pattern',
       flags: 'abcdefgh',
       error: '',
       messages: []
     }
-    await expect(
-      commitMessageChecker.checkCommitMessages(checkerArguments)
-    ).rejects.toThrow('FLAGS contains invalid characters "abcdefh".')
+    await expect(checkCommitMessages(args)).rejects.toThrow(
+      'FLAGS contains invalid characters "abcdefh".'
+    )
   })
 
   it('requires error message', async () => {
-    const checkerArguments: ICheckerArguments = {
+    const args: ICheckerArguments = {
       pattern: 'some-pattern',
       flags: '',
       error: '',
       messages: []
     }
-    await expect(
-      commitMessageChecker.checkCommitMessages(checkerArguments)
-    ).rejects.toThrow('ERROR not defined.')
+    await expect(checkCommitMessages(args)).rejects.toThrow(
+      'ERROR not defined.'
+    )
   })
 
   it('requires messages', async () => {
-    const checkerArguments: ICheckerArguments = {
+    const args: ICheckerArguments = {
       pattern: 'some-pattern',
       flags: '',
       error: 'some-error',
       messages: []
     }
-    await expect(
-      commitMessageChecker.checkCommitMessages(checkerArguments)
-    ).rejects.toThrow('MESSAGES not defined.')
+    await expect(checkCommitMessages(args)).rejects.toThrow(
+      'MESSAGES not defined.'
+    )
   })
 
   it('check fails single message', async () => {
-    const checkerArguments: ICheckerArguments = {
+    const args: ICheckerArguments = {
       pattern: 'some-pattern',
       flags: '',
       error: 'some-error',
       messages: ['some-message']
     }
-    await expect(
-      commitMessageChecker.checkCommitMessages(checkerArguments)
-    ).rejects.toThrow('some-error')
+    await expect(checkCommitMessages(args)).rejects.toThrow('some-error')
   })
 
   it('check fails multiple messages', async () => {
-    const checkerArguments: ICheckerArguments = {
+    const args: ICheckerArguments = {
       pattern: 'some-pattern',
       flags: '',
       error: 'some-error',
       messages: ['some-message', 'some-pattern']
     }
-    await expect(
-      commitMessageChecker.checkCommitMessages(checkerArguments)
-    ).rejects.toThrow('some-error')
+    await expect(checkCommitMessages(args)).rejects.toThrow('some-error')
   })
 
   it('check succeeds on single message', async () => {
-    const checkerArguments: ICheckerArguments = {
+    const args: ICheckerArguments = {
       pattern: '.*',
       flags: '',
       error: 'some-error',
       messages: ['some-message']
     }
-    await expect(
-      commitMessageChecker.checkCommitMessages(checkerArguments)
-    ).resolves.toBeUndefined()
+    await expect(checkCommitMessages(args)).resolves.toBeUndefined()
   })
 
   it('check succeeds on multiple messages', async () => {
-    const checkerArguments: ICheckerArguments = {
+    const args: ICheckerArguments = {
       pattern: '.*',
       flags: '',
       error: 'some-error',
       messages: ['some-message', 'other-message']
     }
-    await expect(
-      commitMessageChecker.checkCommitMessages(checkerArguments)
-    ).resolves.toBeUndefined()
+    await expect(checkCommitMessages(args)).resolves.toBeUndefined()
   })
 })

@@ -1,21 +1,23 @@
 name: 🐞 Bug report
 description: Create a report to help us improve.
 labels: [bug]
-assignees:
-  - gilbertsoft
 body:
   - type: checkboxes
     id: terms
     attributes:
       label: Code of Conduct
-      description: By submitting this issue, you agree to follow our [Code of Conduct](https://github.com/GsActions/commit-message-checker/blob/main/CODE_OF_CONDUCT.md).
+      description:
+        By submitting this issue, you agree to follow our [Code of
+        Conduct](https://github.com/ddev/.github/blob/main/CODE_OF_CONDUCT.md).
       options:
         - label: I agree to follow this project's Code of Conduct
           required: true
   - type: checkboxes
     attributes:
       label: Is there an existing issue for this?
-      description: Please search to see if an issue already exists for the bug you encountered.
+      description:
+        Please search to see if an issue already exists for the bug you
+        encountered.
       options:
         - label: I have searched the existing issues
           required: true
@@ -27,15 +29,16 @@ body:
       multiple: false
       options:
         - ubuntu-latest
-        - ubuntu-20.04
-        - ubuntu-18.04
+        - ubuntu-24.04
+        - ubuntu-22.04
         - windows-latest
+        - windows-2025
         - windows-2022
-        - windows-2019
-        - windows-2016
         - macos-latest
-        - macos-11
-        - macos-10.15
+        - macos-15
+        - macos-14
+        - macos-13
+        - Self-hosted
         - Other (please describe below)
     validations:
       required: true
@@ -43,7 +46,9 @@ body:
     id: other-runner
     attributes:
       label: Additional runner information
-      description: Please provide more information about the used runner if you selected `Other` above.
+      description:
+        Please provide more information about the used runner if you selected
+        `Other` above.
     validations:
       required: false
   - type: textarea
