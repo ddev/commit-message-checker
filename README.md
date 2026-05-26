@@ -1,7 +1,9 @@
 # GS Commit Message Checker
 
-![Version](https://img.shields.io/github/v/release/gsactions/commit-message-checker?style=flat-square)
-![Test](https://github.com/gsactions/commit-message-checker/workflows/build-test/badge.svg)
+![Version](https://img.shields.io/github/v/release/ddev/commit-message-checker?style=flat-square)
+![Test](https://github.com/ddev/commit-message-checker/workflows/build-test/badge.svg)
+
+Forked from unmaintained https://github.com/GsActions/commit-message-checker
 
 A GitHub action that checks that commit messages match a regex pattern. The
 action is able to act on pull request and push events and check the pull
